@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.0)
+
+project(containers)
+
+set(PROJECT_BINARY_DIR ${PROJECT_SOURCE_DIR}/build)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CMAKE_BUILD_TYPE RELEASE)
+
+set(CMAKE_CXX_FLAGS_RELEASE "-O2 -flto")
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+if(${CMAKE_BUILD_TYPE} STREQUAL RELEASE)
+    add_definitions(-DNDEBUG)
+endif()
+
+add_subdirectory(src)
