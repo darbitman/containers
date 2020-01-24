@@ -17,7 +17,7 @@ foreach(benchmark_file ${bench_SRC})
   target_link_libraries(
       ${benchmark_name}
       PUBLIC
-        benchmark
+        benchmark::benchmark
         pthread
   )
 endforeach()

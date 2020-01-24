@@ -17,8 +17,8 @@ foreach(test_file ${test_SRC})
   target_link_libraries(
     ${test_name}
     PUBLIC
-    gtest
-    gtest_main
+    GTest::GTest
+    GTest::Main
     pthread
   )
 endforeach()

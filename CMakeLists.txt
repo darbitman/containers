@@ -10,12 +10,19 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_CXX_FLAGS_RELEASE "-O2 -flto")
+# add warnings to all build types
+set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wdouble-promotion")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS}")
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# add link time optimizations flag
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -flto")
 
-if(${CMAKE_BUILD_TYPE} STREQUAL RELEASE)
-    add_definitions(-DNDEBUG)
-endif()
+# Use GTest::GTest and GTest::Main when linking libraries
+find_package(GTest)
+
+# use benchmark::benchmark when linking libraries
+find_package(benchmark)
 
 add_subdirectory(src)
