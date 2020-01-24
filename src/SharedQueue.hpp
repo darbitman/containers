@@ -7,7 +7,7 @@
 
 namespace ctr {
 
-template <typename _Tp, bool b_is_blocking = true>
+template <typename _Tp, bool b_blocking = true>
 class SharedQueue {
   public:
     SharedQueue() noexcept {}
@@ -30,7 +30,7 @@ class SharedQueue {
         std::unique_lock<std::mutex> mlock(mtx_);
 
         // if this is a blocking queue, wait to be notified when when a new object is added
-        if constexpr (b_is_blocking) {
+        if constexpr (b_blocking) {
             while (queue_.empty()) {
                 cv_.wait(mlock);
             }
@@ -43,7 +43,7 @@ class SharedQueue {
         std::unique_lock<std::mutex> mlock(mtx_);
 
         // if this is a blocking queue, wait to be notified when when a new object is added
-        if constexpr (b_is_blocking) {
+        if constexpr (b_blocking) {
             while (queue_.empty()) {
                 cv_.wait(mlock);
             }
@@ -55,7 +55,7 @@ class SharedQueue {
     _Tp& back() {
         std::unique_lock<std::mutex> mlock(mtx_);
 
-        if constexpr (b_is_blocking) {
+        if constexpr (b_blocking) {
             while (queue_.empty()) {
                 cv_.wait(mlock);
             }
@@ -67,7 +67,7 @@ class SharedQueue {
     const _Tp& back() const {
         std::unique_lock<std::mutex> mlock(mtx_);
 
-        if constexpr (b_is_blocking) {
+        if constexpr (b_blocking) {
             while (queue_.empty()) {
                 cv_.wait(mlock);
             }
@@ -85,7 +85,7 @@ class SharedQueue {
             throw std::invalid_argument("Type _Tp can't be copy constructed");
         }
 
-        if constexpr (b_is_blocking) {
+        if constexpr (b_blocking) {
             if (queue_.size() == 1) {
                 cv_.notify_all();
             }
@@ -98,7 +98,7 @@ class SharedQueue {
 
             queue_.push(std::move(value));
 
-            if constexpr (b_is_blocking) {
+            if constexpr (b_blocking) {
                 if (queue_.size() == 1) {
                     cv_.notify_all();
                 }
@@ -113,7 +113,7 @@ class SharedQueue {
 
             queue_.emplace(std::forward<ArgTypes>(args)...);
 
-            if constexpr (b_is_blocking) {
+            if constexpr (b_blocking) {
                 if (queue_.size() == 1) {
                     cv_.notify_all();
                 }
@@ -136,10 +136,13 @@ class SharedQueue {
     SharedQueue& operator=(SharedQueue&&) noexcept = delete;
 
   private:
+    /// Used to protect the queue from multiple thread access
     mutable std::mutex mtx_;
 
+    /// Used to block when accessing an empty queue
     mutable std::condition_variable cv_;
 
+    /// Underlying storage container
     std::queue<_Tp> queue_;
 };
 
