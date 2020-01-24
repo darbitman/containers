@@ -25,5 +25,5 @@ foreach(test_file ${test_SRC})
   add_test(
     NAME ${test_name}
     COMMAND ${test_name}
-    WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
+  )
 endforeach()
