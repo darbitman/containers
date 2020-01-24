@@ -17,8 +17,13 @@ foreach(test_file ${test_SRC})
   target_link_libraries(
     ${test_name}
     PUBLIC
-    GTest::GTest
     GTest::Main
+    GTest::GTest
     pthread
   )
+
+  add_test(
+    NAME ${test_name}
+    COMMAND ${test_name}
+    WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
 endforeach()

@@ -25,4 +25,6 @@ find_package(GTest)
 # use benchmark::benchmark when linking libraries
 find_package(benchmark)
 
+include (CTest)
+
 add_subdirectory(src)
