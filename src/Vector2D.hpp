@@ -14,16 +14,19 @@ class Vector2D {
 
     class iterator {
       public:
-        iterator(typename std::vector<_Tp>::iterator&& iter) : current_iterator_(std::move(iter)) {}
+        iterator(typename std::vector<_Tp>::iterator&& iter) noexcept
+            : current_iterator_(std::move(iter)) {}
 
-        ~iterator() = default;
+        ~iterator() noexcept {}
 
+        /// @brief postfix increment
         iterator operator++(int) {
             decltype(current_iterator_) temp(current_iterator_);
             ++current_iterator_;
             return temp;
         }
 
+        /// @brief prefix increment
         iterator& operator++() {
             ++current_iterator_;
             return *this;
