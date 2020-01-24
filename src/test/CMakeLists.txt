@@ -22,6 +22,12 @@ foreach(test_file ${test_SRC})
     pthread
   )
 
+  set_target_properties(
+    ${test_name}
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}/test"
+  )
+
   add_test(
     NAME ${test_name}
     COMMAND ${test_name}
