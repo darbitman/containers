@@ -20,4 +20,10 @@ foreach(benchmark_file ${bench_SRC})
         benchmark::benchmark
         pthread
   )
+
+  set_target_properties(
+    ${benchmark_name}
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}/benchmark"
+  )
 endforeach()
