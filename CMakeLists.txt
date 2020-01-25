@@ -6,8 +6,6 @@ set(PROJECT_BINARY_DIR ${PROJECT_SOURCE_DIR}/build)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 set(CMAKE_CXX_STANDARD 17)
 
 # add warnings to all build types
@@ -21,10 +19,19 @@ set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -flto")
 
 # Use GTest::GTest and GTest::Main when linking libraries
 find_package(GTest)
+if(GTEST_FOUND)
+    set(BUILD_UNIT_TESTS ON)
+    include (CTest)
+else()
+    message(WARNING "GTest not found in system path. Not building unit tests.")
+endif()
 
 # use benchmark::benchmark when linking libraries
 find_package(benchmark)
-
-include (CTest)
+if(benchmark_FOUND)
+    set(BUILD_BENCHMARKS ON)
+else()
+    message(WARNING "benchmark not found in system path. Not building benchmarks.")
+endif()
 
 add_subdirectory(src)
