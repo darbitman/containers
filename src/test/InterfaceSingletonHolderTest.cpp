@@ -50,33 +50,38 @@ class InterfaceSingletonHolderTest : public ::testing::Test {
 TEST_F(InterfaceSingletonHolderTest, CheckFirstImplementation) {
     InterfaceSingletonHolder<Interface>::SetInstance(d1);
 
-    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance().GetValue(), d1.GetValue());
+    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance<Interface&>().GetValue(),
+              d1.GetValue());
 }
 
 TEST_F(InterfaceSingletonHolderTest, CheckSecondImplementation) {
     InterfaceSingletonHolder<Interface>::SetInstance(d2);
 
-    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance().GetValue(), d2.GetValue());
+    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance<Interface&>().GetValue(),
+              d2.GetValue());
 }
 
 TEST_F(InterfaceSingletonHolderTest, CheckSwitchingImplementation) {
     InterfaceSingletonHolder<Interface>::SetInstance(d1);
 
-    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance().GetValue(), d1.GetValue());
+    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance<Interface&>().GetValue(),
+              d1.GetValue());
 
     InterfaceSingletonHolder<Interface>::SetInstance(d2);
 
-    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance().GetValue(), d2.GetValue());
+    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance<Interface&>().GetValue(),
+              d2.GetValue());
 }
 
 TEST_F(InterfaceSingletonHolderTest, VerifyDestructorCleansReference) {
     {
         Derived1 d(99);
         InterfaceSingletonHolder<Interface>::SetInstance(d);
-        EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance().GetValue(), d.GetValue());
+        EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance<Interface&>().GetValue(),
+                  d.GetValue());
     }
 
-    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstancePointer(), nullptr);
+    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance<Interface*>(), nullptr);
 }
 
 }  // namespace
