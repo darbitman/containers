@@ -18,7 +18,7 @@ class Derived1 : public Interface {
   public:
     explicit Derived1(uint32_t value) : value_(value) {}
 
-    virtual ~Derived1() override {}
+    virtual ~Derived1() override { InterfaceSingletonHolder<Interface>::SetInstance(nullptr); }
 
     virtual uint32_t GetValue() const noexcept override { return value_; }
 
@@ -30,7 +30,7 @@ class Derived2 : public Interface {
   public:
     explicit Derived2(uint32_t value) : value_(value) {}
 
-    virtual ~Derived2() override {}
+    virtual ~Derived2() override { InterfaceSingletonHolder<Interface>::SetInstance(nullptr); }
 
     virtual uint32_t GetValue() const noexcept override { return value_; }
 
@@ -67,6 +67,16 @@ TEST_F(InterfaceSingletonHolderTest, CheckSwitchingImplementation) {
     InterfaceSingletonHolder<Interface>::SetInstance(d2);
 
     EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance().GetValue(), d2.GetValue());
+}
+
+TEST_F(InterfaceSingletonHolderTest, VerifyDestructorCleansReference) {
+    {
+        Derived1 d(99);
+        InterfaceSingletonHolder<Interface>::SetInstance(d);
+        EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstance().GetValue(), d.GetValue());
+    }
+
+    EXPECT_EQ(InterfaceSingletonHolder<Interface>::GetInstancePointer(), nullptr);
 }
 
 }  // namespace
