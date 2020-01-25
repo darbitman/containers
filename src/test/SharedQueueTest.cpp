@@ -57,9 +57,6 @@ TEST_F(BlockingSharedQueueTest, ProducerConsumer) {
     std::thread consumer_thread(&BlockingSharedQueueTest_ProducerConsumer_Test::ConsumerThread,
                                 this, std::ref(output_vector));
 
-    // ensure consumer thread can start
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
     for (auto& element : vector_) {
         queue_.push(element);
     }
