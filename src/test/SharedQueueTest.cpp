@@ -6,6 +6,9 @@
 
 #include "SharedQueue.hpp"
 
+namespace ctr {
+namespace {
+
 class BlockingSharedQueueTest : public ::testing::Test {
   protected:
     void ConsumerThread(std::vector<uint32_t>& output_vector) {
@@ -68,3 +71,6 @@ TEST_F(BlockingSharedQueueTest, ProducerConsumer) {
 
     ASSERT_EQ(vector_.size(), output_vector.size());
 }
+
+}  // namespace
+}  // namespace ctr

@@ -5,6 +5,7 @@
 #include "Vector2D.hpp"
 
 namespace ctr {
+namespace {
 
 class Vector2DTest : public ::testing::Test {
   public:
@@ -47,4 +48,5 @@ TEST_F(Vector2DTest, Iteration) {
     }
 }
 
+}  // namespace
 }  // namespace ctr
