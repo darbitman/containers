@@ -22,6 +22,12 @@ class Vector2DTest : public ::testing::Test {
     Vector2D<uint32_t> vector;
 };
 
+struct NoDefaultCtor {
+    explicit NoDefaultCtor(uint32_t default_value) : value(default_value) {}
+
+    uint32_t value;
+};
+
 TEST_F(Vector2DTest, EmptyVector) {
     auto dims = vector.capacity();
 
@@ -46,6 +52,14 @@ TEST_F(Vector2DTest, Iteration) {
             EXPECT_EQ(element, i++);
         }
     }
+}
+
+TEST_F(Vector2DTest, TypeWithoutDefaultConstructor) {
+    NoDefaultCtor default_value(0xDEADBEEF);
+
+    Vector2D<NoDefaultCtor> vec(height, width, default_value);
+
+    EXPECT_EQ(vec.at(height / 2, width / 2).value, default_value.value);
 }
 
 }  // namespace

@@ -47,20 +47,16 @@ class Vector2D {
           num_elements_(max_elements_),
           array_(max_elements_) {}
 
-    Vector2D(const Vector2D& other)
-        : max_elements_(other.max_elements_),
-          num_rows_(other.num_rows_),
-          num_columns_(other.num_columns_),
-          num_elements_(other.num_elements_),
-          array_(other.array_) {}
+    Vector2D(size_t num_rows, size_t num_columns, const _Tp& default_value)
+        : max_elements_(num_rows * num_columns),
+          num_rows_(num_rows),
+          num_columns_(num_columns),
+          num_elements_(max_elements_),
+          array_(max_elements_, default_value) {}
 
-    Vector2D(Vector2D&& temp) noexcept {
-        std::swap(max_elements_, temp.max_elements_);
-        std::swap(num_rows_, temp.num_rows_);
-        std::swap(num_columns_, temp.num_columns_);
-        std::swap(num_elements_, temp.num_elements_);
-        std::swap(array_, temp.array_);
-    }
+    Vector2D(const Vector2D& other) = default;
+
+    Vector2D(Vector2D&& temp) noexcept = default;
 
     ~Vector2D() = default;
 
@@ -106,7 +102,11 @@ class Vector2D {
 
   private:
     size_t FlattenDimensions(size_t row, size_t column) const noexcept {
-        return (row * num_columns_) + column;
+        size_t flat_index = (row * num_columns_) + column;
+
+        assert(flat_index < num_elements_);
+
+        return flat_index;
     }
 
     /// Maximum number of elements the array can store
