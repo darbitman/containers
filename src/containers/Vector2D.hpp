@@ -14,7 +14,7 @@ class Vector2D {
 
     class iterator {
       public:
-        iterator(typename std::vector<_Tp>::iterator&& iter) noexcept
+        explicit iterator(typename std::vector<_Tp>::iterator&& iter) noexcept
             : current_iterator_(std::move(iter)) {}
 
         ~iterator() noexcept {}
@@ -38,6 +38,36 @@ class Vector2D {
 
       private:
         typename std::vector<_Tp>::iterator current_iterator_;
+    };
+
+    class const_iterator {
+      public:
+        explicit const_iterator(typename std::vector<_Tp>::const_iterator&& iter) noexcept
+            : current_iterator_(std::move(iter)) {}
+
+        ~const_iterator() noexcept {}
+
+        /// @brief postfix increment
+        const_iterator operator++(int) {
+            decltype(current_iterator_) temp(current_iterator_);
+            ++current_iterator_;
+            return temp;
+        }
+
+        /// @brief prefix increment
+        const_iterator& operator++() {
+            ++current_iterator_;
+            return *this;
+        }
+
+        bool operator!=(const const_iterator& rhs) {
+            return current_iterator_ != rhs.current_iterator_;
+        }
+
+        const _Tp& operator*() { return *current_iterator_; }
+
+      private:
+        typename std::vector<_Tp>::const_iterator current_iterator_;
     };
 
     Vector2D(size_t num_rows, size_t num_columns)
@@ -99,6 +129,10 @@ class Vector2D {
     iterator begin() { return iterator(array_.begin()); }
 
     iterator end() { return iterator(array_.end()); }
+
+    const_iterator begin() const { return const_iterator(array_.cbegin()); }
+
+    const_iterator end() const { return const_iterator(array_.cend()); }
 
   private:
     size_t FlattenDimensions(size_t row, size_t column) const noexcept {
