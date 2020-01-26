@@ -1,10 +1,5 @@
-# file(GLOB Containers_SRC CONFIGURE_DEPENDS "*.cpp" "*.hpp")
-
-# add_library(
-#     Containers
-#     STATIC
-#     ${Containers_SRC}
-# )
+add_subdirectory(containers)
+add_subdirectory(creators)
 
 if(BUILD_UNIT_TESTS)
     add_subdirectory(test)

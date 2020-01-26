@@ -4,7 +4,7 @@
 #include <thread>
 #include <vector>
 
-#include "SharedQueue.hpp"
+#include "containers/SharedQueue.hpp"
 
 namespace ctr {
 namespace {

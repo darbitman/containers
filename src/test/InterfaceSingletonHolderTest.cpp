@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "InterfaceSingletonHolder.hpp"
+#include "creators/InterfaceSingletonHolder.hpp"
 
 namespace ctr {
 namespace {
