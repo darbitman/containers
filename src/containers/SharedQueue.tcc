@@ -1,6 +1,6 @@
 #include "SharedQueue.hpp"
 
-namespace ctr {
+namespace ctr::containers {
 
 template <typename _Tp, bool b_blocking>
 SharedQueue<_Tp, b_blocking>::SharedQueue() noexcept {}
@@ -129,4 +129,4 @@ void SharedQueue<_Tp, b_blocking>::pop() {
     }
 }
 
-}  // namespace ctr
+}  // namespace ctr::containers

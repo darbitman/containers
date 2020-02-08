@@ -6,7 +6,7 @@
 
 #include "containers/SharedQueue.hpp"
 
-namespace ctr {
+namespace ctr::containers {
 namespace {
 
 class BlockingSharedQueueTest : public ::testing::Test {
@@ -27,7 +27,7 @@ class BlockingSharedQueueTest : public ::testing::Test {
 
     std::vector<uint32_t> vector_;
 
-    ctr::SharedQueue<uint32_t> queue_;
+    SharedQueue<uint32_t> queue_;
 };
 
 TEST_F(BlockingSharedQueueTest, EmptyQueue) { EXPECT_EQ(queue_.empty(), true); }
@@ -76,4 +76,4 @@ TEST_F(BlockingSharedQueueTest, Emplace) {
 }
 
 }  // namespace
-}  // namespace ctr
+}  // namespace ctr::containers
