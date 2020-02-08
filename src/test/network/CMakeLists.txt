@@ -11,7 +11,7 @@ foreach(test_file ${test_SRC})
   target_include_directories(
     ${test_name}
     PUBLIC
-    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/
   )
 
   target_link_libraries(
@@ -20,6 +20,7 @@ foreach(test_file ${test_SRC})
     GTest::Main
     GTest::GTest
     pthread
+    network
   )
 
   set_target_properties(
@@ -33,6 +34,3 @@ foreach(test_file ${test_SRC})
     COMMAND ${test_name}
   )
 endforeach()
-
-
-add_subdirectory(network)
