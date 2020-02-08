@@ -69,5 +69,11 @@ TEST_F(BlockingSharedQueueTest, ProducerConsumer) {
     ASSERT_EQ(vector_.size(), output_vector.size());
 }
 
+TEST_F(BlockingSharedQueueTest, Emplace) {
+    queue_.emplace(12);
+
+    EXPECT_EQ(queue_.front(), 12);
+}
+
 }  // namespace
 }  // namespace ctr
