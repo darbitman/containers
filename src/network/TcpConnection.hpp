@@ -8,7 +8,7 @@ class TcpConnection {
   public:
     TcpConnection() noexcept;
 
-    TcpConnection(int32_t existing_socket_fd) noexcept;
+    explicit TcpConnection(int32_t existing_socket_fd) noexcept;
 
     ~TcpConnection() noexcept;
 
