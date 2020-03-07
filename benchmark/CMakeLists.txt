@@ -11,7 +11,7 @@ foreach(benchmark_file ${bench_SRC})
   target_include_directories(
     ${benchmark_name}
     PUBLIC
-      ${PROJECT_SOURCE_DIR}/src/
+      ${PROJECT_SOURCE_DIR}/include/
   )
 
   target_link_libraries(

@@ -11,7 +11,7 @@ foreach(test_file ${test_SRC})
   target_include_directories(
     ${test_name}
     PUBLIC
-    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/include/
   )
 
   target_link_libraries(
