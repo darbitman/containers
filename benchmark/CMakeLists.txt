@@ -24,6 +24,6 @@ foreach(benchmark_file ${bench_SRC})
   set_target_properties(
     ${benchmark_name}
     PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}/benchmark"
+    RUNTIME_OUTPUT_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_BUILD_TYPE}/benchmark"
   )
 endforeach()
