@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.9)
 
 project(helpers)
 
@@ -13,11 +13,7 @@ set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wdouble-promotion")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS}")
 
-# add link time optimizations flag
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -flto")
-
-# Use GTest::GTest and GTest::Main when linking libraries
+# Use GTest::Main and GTest::GTest when linking libraries
 find_package(GTest)
 if(GTEST_FOUND)
     set(BUILD_UNIT_TESTS ON)
@@ -32,6 +28,16 @@ if(benchmark_FOUND)
     set(BUILD_BENCHMARKS ON)
 else()
     message(WARNING "benchmark not found in system path. Not building benchmarks.")
+endif()
+
+# link time optimization/interprocedural optimization
+cmake_policy(SET CMP0069 NEW)
+include(CheckIPOSupported)
+check_ipo_supported(RESULT IsIpoSupported)
+if(IsIpoSupported)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+else()
+    message(WARNING "IPO Not Supported")
 endif()
 
 add_subdirectory(src)
