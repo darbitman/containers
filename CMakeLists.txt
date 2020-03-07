@@ -41,3 +41,7 @@ else()
 endif()
 
 add_subdirectory(src)
+
+if(BUILD_BENCHMARKS)
+    add_subdirectory(benchmark)
+endif()
