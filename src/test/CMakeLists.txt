@@ -33,6 +33,3 @@ foreach(test_file ${test_SRC})
     COMMAND ${test_name}
   )
 endforeach()
-
-
-add_subdirectory(network)
