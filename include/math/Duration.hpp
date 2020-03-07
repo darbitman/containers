@@ -2,7 +2,7 @@
 
 #include <array>
 
-namespace helpers::math::units {
+namespace helpers::math {
 
 class Duration {
     static constexpr double kSecondsPerMillisecond = 0.001;
@@ -18,14 +18,7 @@ class Duration {
 
     ~Duration() noexcept = default;
 
-    constexpr double Get(Unit to_unit) const noexcept {
-        if (to_unit == unit_) {
-            return value_;
-        } else {
-            auto ratio = GetRatio(to_unit);
-            return value_ * ratio;
-        }
-    }
+    constexpr double Get(Unit to_unit) const noexcept;
 
     constexpr void Set(double value, Unit unit) noexcept {
         value_ = value;
@@ -55,4 +48,13 @@ class Duration {
          {Duration::Unit::kHours, Duration::kSecondsPerHour}}};
 };
 
-}  // namespace helpers::math::units
+constexpr double Duration::Get(Unit to_unit) const noexcept {
+    if (to_unit == unit_) {
+        return value_;
+    } else {
+        auto ratio = GetRatio(to_unit);
+        return value_ * ratio;
+    }
+}
+
+}  // namespace helpers::math

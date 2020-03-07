@@ -2,7 +2,7 @@
 
 #include <array>
 
-namespace helpers::math::units {
+namespace helpers::math {
 
 class Speed {
     static constexpr double kMetersPerSecondPerMPH = 3600.0 / (0.3048 * 5280);
@@ -29,4 +29,4 @@ class Speed {
          {Speed::Unit::kCmPerSecond, kMetersPerSecondPerCmPerSecond}}};
 };
 
-}  // namespace helpers::math::units
+}  // namespace helpers::math
