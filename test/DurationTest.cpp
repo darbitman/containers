@@ -18,5 +18,18 @@ TEST(DurationTest, TestSeconds) {
     EXPECT_EQ(hours, 1.0);
 }
 
+TEST(DurationTest, TestMinutes) {
+    constexpr Duration time(60.0, Duration::Unit::kMinutes);
+
+    constexpr auto milliseconds = time.Get(Duration::Unit::kMilliseconds);
+    EXPECT_EQ(milliseconds, 3600000.0);
+
+    constexpr auto seconds = time.Get(Duration::Unit::kSeconds);
+    EXPECT_EQ(seconds, 3600.0);
+
+    constexpr auto hours = time.Get(Duration::Unit::kHours);
+    EXPECT_EQ(hours, 1.0);
+}
+
 }  // namespace
 }  // namespace helpers::math
