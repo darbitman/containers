@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-namespace ctr {
+namespace helpers::creators {
 
 template <typename InterfaceType>
 class InterfaceSingletonHolder {
@@ -23,4 +23,4 @@ class InterfaceSingletonHolder {
     inline static InterfaceType* p_interface_ = nullptr;
 };
 
-}  // namespace ctr
+}  // namespace helpers::creators

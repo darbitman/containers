@@ -4,7 +4,7 @@
 
 #include "creators/InterfaceSingletonHolder.hpp"
 
-namespace ctr {
+namespace helpers::creators {
 namespace {
 
 class Interface {
@@ -80,4 +80,4 @@ TEST_F(InterfaceSingletonHolderTest, VerifyDestructorCleansReference) {
 }
 
 }  // namespace
-}  // namespace ctr
+}  // namespace helpers::creators
