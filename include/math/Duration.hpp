@@ -2,6 +2,8 @@
 
 #include <array>
 
+namespace helpers::math::units {
+
 class Duration {
     static constexpr double kSecondsPerMillisecond = 0.001;
     static constexpr double kSecondsPerMinute = 60.0;
@@ -52,3 +54,5 @@ class Duration {
          {Duration::Unit::kMinutes, Duration::kSecondsPerMinute},
          {Duration::Unit::kHours, Duration::kSecondsPerHour}}};
 };
+
+}  // namespace helpers::math::units
