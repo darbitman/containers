@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(containers)
+project(helpers)
 
 set(PROJECT_BINARY_DIR ${PROJECT_SOURCE_DIR}/build)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
