@@ -5,7 +5,7 @@
 #include <queue>
 #include <type_traits>
 
-namespace ctr::containers {
+namespace helpers::containers {
 
 template <typename _Tp, bool b_blocking = true>
 class SharedQueue {
@@ -52,6 +52,6 @@ class SharedQueue {
     std::queue<_Tp> queue_;
 };
 
-}  // namespace ctr::containers
+}  // namespace helpers::containers
 
 #include "SharedQueue.tcc"

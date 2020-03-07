@@ -6,7 +6,7 @@
 
 #include "containers/SharedQueue.hpp"
 
-namespace ctr::containers {
+namespace helpers::containers {
 namespace {
 
 class BlockingSharedQueueTest : public ::testing::Test {
@@ -76,4 +76,4 @@ TEST_F(BlockingSharedQueueTest, Emplace) {
 }
 
 }  // namespace
-}  // namespace ctr::containers
+}  // namespace helpers::containers

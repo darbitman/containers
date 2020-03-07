@@ -13,7 +13,7 @@ static void BM_PushSharedQueueBlocking(benchmark::State& state) {
     uint32_t num_values = state.range(0);
 
     for (auto _ : state) {
-        ctr::containers::SharedQueue<uint32_t, true> queue;
+        helpers::containers::SharedQueue<uint32_t, true> queue;
 
         for (uint32_t i = 0; i < num_values; ++i) {
             queue.push(i);
@@ -32,7 +32,7 @@ static void BM_PushSharedQueueNonblocking(benchmark::State& state) {
     uint32_t num_values = state.range(0);
 
     for (auto _ : state) {
-        ctr::containers::SharedQueue<uint32_t, false> queue;
+        helpers::containers::SharedQueue<uint32_t, false> queue;
 
         for (uint32_t i = 0; i < num_values; ++i) {
             queue.push(i);
