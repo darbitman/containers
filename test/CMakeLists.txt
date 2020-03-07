@@ -25,7 +25,7 @@ foreach(test_file ${test_SRC})
   set_target_properties(
     ${test_name}
     PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}/${CMAKE_BUILD_TYPE}/test"
+    RUNTIME_OUTPUT_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}/test"
   )
 
   add_test(
