@@ -32,6 +32,8 @@ class Duration {
                 return ratios.second;
             }
         }
+
+        return 1.0;
     }
 
     constexpr double GetRatio(Unit to_unit) const {
