@@ -4,7 +4,7 @@
 
 #include "containers/Vector2D.hpp"
 
-namespace ctr {
+namespace helpers::containers {
 namespace {
 
 class Vector2DTest : public ::testing::Test {
@@ -84,4 +84,4 @@ TEST_F(Vector2DTest, TypeWithoutDefaultConstructor) {
 }
 
 }  // namespace
-}  // namespace ctr
+}  // namespace helpers::containers
