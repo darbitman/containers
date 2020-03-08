@@ -24,5 +24,29 @@ TEST(DistanceTest, TestAdditionOperator) {
     EXPECT_GT(distance_sum_value, 108.33333);
 }
 
+TEST(DistanceTest, TestSubtractionOperator) {
+    constexpr Distance distance_a(100.0, Distance::Unit::kFoot);
+    constexpr Distance distance_b(100.0, Distance::Unit::kInch);
+
+    constexpr Distance distance_difference = distance_a - distance_b;
+    constexpr auto distance_difference_value = distance_difference.Get(Distance::Unit::kFoot);
+
+    // Floating point error might occur, so ensure value is between upper and lower bound
+    EXPECT_LT(distance_difference_value, 91.66667);
+    EXPECT_GT(distance_difference_value, 91.66666);
+}
+
+TEST(DistanceTest, TestSubtractionOperatorNegativeResult) {
+    constexpr Distance distance_a(100.0, Distance::Unit::kFoot);
+    constexpr Distance distance_b(100.0, Distance::Unit::kInch);
+
+    constexpr Distance distance_difference = distance_b - distance_a;
+    constexpr auto distance_difference_value = distance_difference.Get(Distance::Unit::kFoot);
+
+    // Floating point error might occur, so ensure value is between upper and lower bound
+    EXPECT_LT(distance_difference_value, -91.66666);
+    EXPECT_GT(distance_difference_value, -91.66667);
+}
+
 }  // namespace
 }  // namespace helpers::math
