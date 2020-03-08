@@ -27,6 +27,8 @@ class Distance {
 
     constexpr Distance operator+(const Distance& rhs) const noexcept;
 
+    constexpr Distance operator-(const Distance& rhs) const noexcept;
+
   private:
     constexpr double GetMetersPerUnit(Unit unit) const noexcept;
 
@@ -67,6 +69,14 @@ constexpr Distance Distance::operator+(const Distance& rhs) const noexcept {
         return Distance(value_ + rhs.value_, unit_);
     } else {
         return Distance(Get(Unit::kMeter) + rhs.Get(Unit::kMeter), Unit::kMeter);
+    }
+}
+
+constexpr Distance Distance::operator-(const Distance& rhs) const noexcept {
+    if (unit_ == rhs.unit_) {
+        return Distance(value_ - rhs.value_, unit_);
+    } else {
+        return Distance(Get(Unit::kMeter) - rhs.Get(Unit::kMeter), Unit::kMeter);
     }
 }
 
