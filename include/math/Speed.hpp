@@ -9,7 +9,7 @@ namespace helpers::math {
 
 class Speed {
   public:
-    enum class Unit { kMPH, kMetersPerSecond, kKPH };
+    enum class Unit { kMPH, kMetersPerSecond, kKPH, kFeetPerSecond };
 
     constexpr Speed() noexcept;
 
@@ -37,10 +37,11 @@ class Speed {
     double value_;
     Unit unit_;
 
-    static constexpr std::array<Units, 3> units_{
+    static constexpr std::array<Units, 4> units_{
         {{Unit::kMetersPerSecond, Distance::Unit::kMeter, Duration::Unit::kSeconds},
          {Unit::kMPH, Distance::Unit::kMile, Duration::Unit::kHours},
-         {Unit::kKPH, Distance::Unit::kKilometer, Duration::Unit::kHours}}};
+         {Unit::kKPH, Distance::Unit::kKilometer, Duration::Unit::kHours},
+         {Unit::kFeetPerSecond, Distance::Unit::kFoot, Duration::Unit::kSeconds}}};
 };
 
 constexpr Speed::Speed() noexcept
