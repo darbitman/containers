@@ -10,9 +10,10 @@ class Distance {
     static constexpr double kMetersPerMillimeter = 0.001;
     static constexpr double kMetersPerCentimeter = 0.01;
     static constexpr double kMetersPerMile = kMetersPerFoot * 5280.0;
+    static constexpr double kMetersPerKilometer = 1000.0;
 
   public:
-    enum class Unit { kInch, kFoot, kMillimeter, kCentimeter, kMeter, kMile };
+    enum class Unit { kInch, kFoot, kMillimeter, kCentimeter, kMeter, kMile, kKilometer };
 
     constexpr Distance() noexcept;
 
@@ -32,13 +33,14 @@ class Distance {
     double value_;
     Unit unit_;
 
-    static constexpr std::array<std::pair<Distance::Unit, double>, 6> meters_per_unit_{
+    static constexpr std::array<std::pair<Distance::Unit, double>, 7> meters_per_unit_{
         {{Distance::Unit::kInch, kMetersPerInch},
          {Distance::Unit::kFoot, kMetersPerFoot},
          {Distance::Unit::kMillimeter, kMetersPerMillimeter},
          {Distance::Unit::kCentimeter, kMetersPerCentimeter},
          {Distance::Unit::kMeter, 1.0},
-         {Distance::Unit::kMile, kMetersPerMile}}};
+         {Distance::Unit::kMile, kMetersPerMile},
+         {Distance::Unit::kKilometer, kMetersPerKilometer}}};
 };
 
 constexpr Distance::Distance() noexcept : value_(0.0), unit_(Distance::Unit::kMeter) {}
