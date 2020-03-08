@@ -25,6 +25,8 @@ class Distance {
 
     constexpr void Set(double value, Unit unit) noexcept;
 
+    constexpr Distance operator+(const Distance& rhs) const noexcept;
+
   private:
     constexpr double GetMetersPerUnit(Unit unit) const noexcept;
 
@@ -58,6 +60,14 @@ constexpr double Distance::Get(Distance::Unit to_unit) const noexcept {
 constexpr void Distance::Set(double value, Distance::Unit unit) noexcept {
     value_ = value;
     unit_ = unit;
+}
+
+constexpr Distance Distance::operator+(const Distance& rhs) const noexcept {
+    if (unit_ == rhs.unit_) {
+        return Distance(value_ + rhs.value_, unit_);
+    } else {
+        return Distance(Get(Unit::kMeter) + rhs.Get(Unit::kMeter), Unit::kMeter);
+    }
 }
 
 constexpr double Distance::GetMetersPerUnit(Unit unit) const noexcept {
