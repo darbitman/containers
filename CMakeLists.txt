@@ -14,6 +14,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS}")
 
 find_program(CCACHE ccache)
 if(CCACHE)
+  message(STATUS "Found ccache: ${CCACHE}")
   set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE})
   set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE})
 else()
