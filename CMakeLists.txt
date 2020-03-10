@@ -12,6 +12,15 @@ set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wdouble-promotion")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS}")
 
+find_program(CCACHE ccache)
+if(CCACHE)
+  set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE})
+  set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE})
+else()
+  message(WARNING "ccache not found")
+endif()
+
+add_library(pch_std_libs INTERFACE)
 
 
 # Use GTest::Main and GTest::GTest when linking libraries
