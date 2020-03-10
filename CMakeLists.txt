@@ -12,10 +12,13 @@ set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wdouble-promotion")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS}")
 
+
+
 # Use GTest::Main and GTest::GTest when linking libraries
 find_package(GTest)
 if(GTEST_FOUND)
     set(BUILD_UNIT_TESTS ON)
+    include(cmake/CompileTests.cmake)
     include (CTest)
 else()
     message(WARNING "GTest not found in system path. Not building unit tests.")
@@ -46,3 +49,5 @@ endif()
 if(BUILD_BENCHMARKS)
     add_subdirectory(benchmark)
 endif()
+
+

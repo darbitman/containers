@@ -1,35 +1,10 @@
-file(GLOB test_SRC CONFIGURE_DEPENDS "*.cpp")
+set(
+  libraries
+  GTest::Main
+  GTest::GTest
+  pthread
+)
 
-foreach(test_file ${test_SRC})
-  get_filename_component(test_name ${test_file} NAME_WE)
+set(include_dirs ${PROJECT_SOURCE_DIR}/include/)
 
-  add_executable(
-    ${test_name}
-    ${test_file}
-  )
-
-  target_include_directories(
-    ${test_name}
-    PUBLIC
-    ${PROJECT_SOURCE_DIR}/include/
-  )
-
-  target_link_libraries(
-    ${test_name}
-    PUBLIC
-    GTest::Main
-    GTest::GTest
-    pthread
-  )
-
-  set_target_properties(
-    ${test_name}
-    PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}/test"
-  )
-
-  add_test(
-    NAME ${test_name}
-    COMMAND ${test_name}
-  )
-endforeach()
+CompileTests("${libraries}" "${include_dirs}" "${EXECUTABLE_OUTPUT_PATH}/test")
