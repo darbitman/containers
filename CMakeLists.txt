@@ -12,6 +12,7 @@ set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wdouble-promotion")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS}")
 
+# ccache to speed up builds
 option(ENABLE_CCACHE "Enable ccache to speed up builds" ON)
 if(ENABLE_CCACHE)
   find_program(CCACHE ccache)
@@ -24,6 +25,7 @@ if(ENABLE_CCACHE)
   endif()
 endif()
 
+# link time optimization/interprocedural optimization
 option(ENABLE_LINK_TIME_OPTIMIZATION "Optimize during link time" ON)
 if(ENABLE_LINK_TIME_OPTIMIZATION)
   cmake_policy(SET CMP0069 NEW)
@@ -55,9 +57,6 @@ else()
     message(WARNING "benchmark not found in system path. Not building benchmarks.")
 endif()
 
-# link time optimization/interprocedural optimization
-
-
 if(BUILD_UNIT_TESTS)
     add_subdirectory(test)
 endif()
@@ -65,5 +64,3 @@ endif()
 if(BUILD_BENCHMARKS)
     add_subdirectory(benchmark)
 endif()
-
-
