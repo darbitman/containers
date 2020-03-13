@@ -26,5 +26,10 @@ function(CompileTests libraries include_dirs executable_output_dir)
       PROPERTIES
       RUNTIME_OUTPUT_DIRECTORY "${executable_output_dir}"
     )
+
+    add_test(
+      NAME ${test_name}
+      COMMAND ${test_name}
+    )
   endforeach()
 endfunction()
