@@ -1,7 +1,7 @@
 ### Build Notes
 #### Dependencies
 ##### Required
-containers requires gcc 8.3+ with C++17 support
+helpers requires gcc 8.3+ with C++17 support
 
 1. CMake 3.0+ https://github.com/Kitware/CMake
 2. googletest 1.10+ https://github.com/google/googletest
