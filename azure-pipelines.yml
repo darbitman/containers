@@ -18,3 +18,4 @@ steps:
 - task: CMake@1
   inputs:
    workingDirectory: .
+   cmakeArgs: -S . -B build
