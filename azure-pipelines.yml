@@ -11,11 +11,12 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+
 
 - task: CMake@1
   inputs:
    workingDirectory: .
    cmakeArgs: -S . -B build
+
+steps:
+- script: cd build && make -j4
