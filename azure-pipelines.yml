@@ -6,7 +6,7 @@
 trigger:
 - master
 
-environment: Build
+
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -14,6 +14,7 @@ pool:
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
+  environment: Build
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
