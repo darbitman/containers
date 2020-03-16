@@ -6,6 +6,8 @@
 trigger:
 - master
 
+environment: Build
+
 pool:
   vmImage: 'ubuntu-latest'
 
