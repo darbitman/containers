@@ -39,6 +39,7 @@ if(ENABLE_LINK_TIME_OPTIMIZATION)
   endif()
 endif()
 
+option(ENABLE_CODE_COVERAGE "Generate code coverage data" OFF)
 
 # Use GTest::Main and GTest::GTest when linking libraries
 find_package(GTest)
