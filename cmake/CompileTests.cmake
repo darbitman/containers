@@ -1,4 +1,4 @@
-function(CompileTests libraries include_dirs executable_output_dir)
+function(CompileTests libraries include_dirs executable_output_dir #[[ additional_compiler_arguments ]] )
   file(GLOB test_SRC CONFIGURE_DEPENDS "*.cpp")
 
   foreach(test_file ${test_SRC})
@@ -20,6 +20,10 @@ function(CompileTests libraries include_dirs executable_output_dir)
       PUBLIC
       "${libraries}"
     )
+
+    if(ARGC EQUAL 4)
+      target_compile_options(${test_name} PRIVATE "${ARGV3}")
+    endif()
 
     set_target_properties(
       ${test_name}
