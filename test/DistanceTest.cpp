@@ -37,5 +37,21 @@ TEST(DistanceTest, TestSubtractionOperatorNegativeResult) {
   EXPECT_NEAR(distance_difference.Get(Distance::Unit::kFoot), -91.666, 0.001);
 }
 
+TEST(DistanceTest, SubtractSameUnit) {
+  Distance distance(100.0, Distance::Unit::kFoot);
+
+  const auto difference = distance - distance;
+
+  EXPECT_NEAR(difference.Get(Distance::Unit::kFoot), 0.0, 0.00000001);
+}
+
+TEST(DistanceTest, AddSameUnit) {
+  Distance distance(100.0, Distance::Unit::kFoot);
+
+  const auto difference = distance + distance;
+
+  EXPECT_NEAR(difference.Get(Distance::Unit::kFoot), 200.0, 0.00000001);
+}
+
 }  // namespace
 }  // namespace helpers::math
