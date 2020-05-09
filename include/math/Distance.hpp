@@ -2,6 +2,8 @@
 
 #include <array>
 
+#include "CommonTypes.hpp"
+
 namespace helpers::math {
 
 class Distance {
@@ -13,7 +15,7 @@ class Distance {
   static constexpr double kMetersPerKilometer  = 1000.0;
 
  public:
-  enum class Unit : uint32_t {
+  enum class Unit : UnderlyingEnumType {
     kInch       = 0,
     kFoot       = 1,
     kMillimeter = 2,
@@ -89,9 +91,7 @@ constexpr Distance Distance::operator-(const Distance& rhs) const noexcept {
 }
 
 constexpr double Distance::GetMetersPerUnit(Unit unit) const noexcept {
-  using UnderlyingEnumType = std::underlying_type_t<Unit>;
-
-  return meters_per_unit_.at(static_cast<UnderlyingEnumType>(unit)).second;
+  return meters_per_unit_.at(ToIndex(unit)).second;
 }
 
 constexpr double Distance::GetRatio(Unit to_unit) const noexcept {
