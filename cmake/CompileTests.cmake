@@ -21,6 +21,7 @@ function(CompileTests libraries include_dirs executable_output_dir #[[ additiona
       "${libraries}"
     )
 
+    # additional_compiler_arguments
     if(ARGC EQUAL 4)
       target_compile_options(${test_name} PRIVATE "${ARGV3}")
     endif()
@@ -34,6 +35,7 @@ function(CompileTests libraries include_dirs executable_output_dir #[[ additiona
     add_test(
       NAME ${test_name}
       COMMAND ${test_name}
+      WORKING_DIRECTORY ${executable_output_dir}
     )
   endforeach()
 endfunction()
