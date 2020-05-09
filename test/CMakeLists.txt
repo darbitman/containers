@@ -12,9 +12,6 @@ if(ENABLE_CODE_COVERAGE)
   list(APPEND additional_compiler_flags -fprofile-arcs -ftest-coverage)
 endif()
 
-message("${libraries}")
-message("${additional_compiler_flags}")
-
 set(include_dirs ${PROJECT_SOURCE_DIR}/include/)
 
 
