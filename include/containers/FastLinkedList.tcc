@@ -18,17 +18,22 @@ FastLinkedList<_Tp, _N>::FastLinkedList(const _Tp& default_value)
 
 template <typename _Tp, size_t _N>
 auto FastLinkedList<_Tp, _N>::front() -> reference {
-  return *p_next_available_node_;
+  return p_start_node_->value;
 }
 
 template <typename _Tp, size_t _N>
 auto FastLinkedList<_Tp, _N>::front() const -> const_reference {
-  return *p_next_available_node_;
+  return p_start_node_->value;
 }
 
 template <typename _Tp, size_t _N>
 bool FastLinkedList<_Tp, _N>::empty() const noexcept {
   return p_start_node_ == p_end_node_;
+}
+
+template <typename _Tp, size_t _N>
+bool FastLinkedList<_Tp, _N>::full() const noexcept {
+  return num_nodes_ == _N;
 }
 
 template <typename _Tp, size_t _N>
@@ -43,8 +48,14 @@ auto FastLinkedList<_Tp, _N>::max_size() const noexcept -> size_type {
 
 template <typename _Tp, size_t _N>
 void FastLinkedList<_Tp, _N>::clear() noexcept {
+  clear(_Tp{});
+}
+
+template <typename _Tp, size_t _N>
+void FastLinkedList<_Tp, _N>::clear(const _Tp& default_value) noexcept {
+  Initialize(default_value);
+
   p_start_node_          = list_.end();
-  p_end_node_            = list_.end();
   p_next_available_node_ = &list_.back();
   num_nodes_             = 0;
 }
@@ -94,18 +105,6 @@ void FastLinkedList<_Tp, _N>::push_front(_Tp&& value) {
 }
 
 template <typename _Tp, size_t _N>
-template <typename... _Args>
-auto FastLinkedList<_Tp, _N>::emplace_front(_Args&&... __args) ->
-#if __cplusplus > 201402L
-    reference
-#else
-    void
-#endif
-{
-  // TODO
-}
-
-template <typename _Tp, size_t _N>
 void FastLinkedList<_Tp, _N>::pop_front() {
   if (p_start_node_ != p_end_node_) {
     // save the pointer to the node currently set to be used as the next available node
@@ -122,6 +121,38 @@ void FastLinkedList<_Tp, _N>::pop_front() {
 
     --num_nodes_;
   }
+}
+
+template <typename _Tp, size_t _N>
+void FastLinkedList<_Tp, _N>::remove(const _Tp& value) {
+  if (empty()) {
+    return;
+  }
+
+  // save pointer to starting node; need a copy because this pointer will be modified while searching
+  auto** p_memory_that_stores_ptr_to_current_node = &p_start_node_;
+
+  // checked if list is empty already, so there's at least one node in the list
+  do {
+    if ((*p_memory_that_stores_ptr_to_current_node)->value == value) {
+      // save the pointer to the node that will be removed
+      // this node will then be added back to list of available nodes for reuse
+      auto* p_node_to_remove = (*p_memory_that_stores_ptr_to_current_node);
+
+      // update pointer to point at the object AFTER the one that is being removed
+      *p_memory_that_stores_ptr_to_current_node = p_node_to_remove->p_next_node;
+
+      // add the node back to the free store
+      p_node_to_remove->p_next_node = p_next_available_node_;
+      p_next_available_node_        = p_node_to_remove;
+
+      --num_nodes_;
+    } else {
+      // update double pointer
+      // this will now store the memory address of the next node's p_next_node
+      p_memory_that_stores_ptr_to_current_node = &(*p_memory_that_stores_ptr_to_current_node)->p_next_node;
+    }
+  } while (*p_memory_that_stores_ptr_to_current_node != p_end_node_);
 }
 
 template <typename _Tp, size_t _N>

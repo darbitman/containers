@@ -24,25 +24,23 @@ class FastLinkedList {
 
   bool empty() const noexcept;
 
+  bool full() const noexcept;
+
   size_type size() const noexcept;
 
   size_type max_size() const noexcept;
 
   void clear() noexcept;
 
+  void clear(const _Tp& default_value) noexcept;
+
   void push_front(const _Tp& value);
 
   void push_front(_Tp&& value);
 
-  template <typename... _Args>
-#if __cplusplus > 201402L
-  reference
-#else
-  void
-#endif
-  emplace_front(_Args&&... __args);
-
   void pop_front();
+
+  void remove(const _Tp& value);
 
  private:
   struct Node {
