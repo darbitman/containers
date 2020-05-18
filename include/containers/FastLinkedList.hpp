@@ -45,23 +45,23 @@ class FastLinkedList {
  private:
   struct Node {
     value_type value;
-    Node*      p_next_node = nullptr;
+    size_type  p_next_node = _N;
   };
 
   void Initialize(const _Tp& default_value);
 
-  void ReturnToAvailableNodesList(Node* p_new_available_node);
+  void ReturnToAvailableNodesList(size_type p_new_available_node);
 
   std::array<Node, _N> list_;
 
   // when the list is empty, this points at the end
-  Node* p_start_node_;
+  size_type p_start_node_;
 
   // will always point one past the last element in the list_ container; "tail" will always be the
   // last element in the list_ container
-  Node* const p_end_node_;
+  const size_type p_end_node_;
 
-  Node* p_next_available_node_;
+  size_type p_next_available_node_;
 
   size_type num_nodes_;
 };
