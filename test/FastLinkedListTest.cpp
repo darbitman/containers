@@ -57,7 +57,7 @@ TEST(FastLinkedList, ClearThenAdd) {
   EXPECT_EQ(list.front(), 3);
 }
 
-TEST(FastLinkedList, Remove) {
+TEST(FastLinkedList, RemoveFromList) {
   FastLinkedList<uint32_t, 10> list;
 
   list.push_front(3);
@@ -68,6 +68,18 @@ TEST(FastLinkedList, Remove) {
   list.remove(3);
 
   EXPECT_EQ(list.size(), 1);
+}
+
+TEST(FastLinkedList, PopFront) {
+  FastLinkedList<uint32_t, 10> list;
+
+  list.push_front(3);
+  list.push_front(2);
+
+  list.pop_front();
+
+  EXPECT_EQ(list.size(), 1);
+  EXPECT_EQ(list.front(), 3);
 }
 
 }  // namespace
