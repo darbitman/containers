@@ -50,6 +50,8 @@ class FastLinkedList {
 
   void Initialize(const _Tp& default_value);
 
+  void ReturnToAvailableNodesList(Node* p_new_available_node);
+
   std::array<Node, _N> list_;
 
   // when the list is empty, this points at the end

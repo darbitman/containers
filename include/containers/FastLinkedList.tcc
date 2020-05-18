@@ -107,19 +107,13 @@ void FastLinkedList<_Tp, _N>::push_front(_Tp&& value) {
 template <typename _Tp, size_t _N>
 void FastLinkedList<_Tp, _N>::pop_front() {
   if (p_start_node_ != p_end_node_) {
-    // save the pointer to the node currently set to be used as the next available node
-    auto* p_previous_available_node = p_next_available_node_;
+    // save the pointer to the node to be removed
+    auto* p_node_to_remove = p_start_node_;
 
-    // the node at the front is the one that will be the next available, so update the pointer
-    p_next_available_node_ = p_start_node_;
-
-    // update the pointer to the start node to the next node in the list
+    // update the pointer to the start node to point at the next node in the list
     p_start_node_ = p_start_node_->p_next_node;
 
-    // update the pointer in the newly freed node to point to the node that was saved as the 'next available node'
-    p_next_available_node_->p_next_node = p_previous_available_node;
-
-    --num_nodes_;
+    ReturnToAvailableNodesList(p_node_to_remove);
   }
 }
 
@@ -143,10 +137,7 @@ void FastLinkedList<_Tp, _N>::remove(const _Tp& value) {
       *p_memory_that_stores_ptr_to_current_node = p_node_to_remove->p_next_node;
 
       // add the node back to the free store
-      p_node_to_remove->p_next_node = p_next_available_node_;
-      p_next_available_node_        = p_node_to_remove;
-
-      --num_nodes_;
+      ReturnToAvailableNodesList(p_node_to_remove);
     } else {
       // update double pointer
       // this will now store the memory address of the next node's p_next_node
@@ -165,6 +156,15 @@ void FastLinkedList<_Tp, _N>::Initialize(const _Tp& default_value) {
     reverse_iter->value       = default_value;
     reverse_iter->p_next_node = &(*(reverse_iter + 1));
   }
+}
+
+template <typename _Tp, size_t _N>
+void FastLinkedList<_Tp, _N>::ReturnToAvailableNodesList(Node* p_new_available_node) {
+  p_new_available_node->p_next_node = p_next_available_node_;
+
+  p_next_available_node_ = p_new_available_node;
+
+  --num_nodes_;
 }
 
 }  // namespace helpers::containers
