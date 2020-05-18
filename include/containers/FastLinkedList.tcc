@@ -62,8 +62,7 @@ void FastLinkedList<_Tp, _N>::clear(const _Tp& default_value) noexcept {
 
 template <typename _Tp, size_t _N>
 void FastLinkedList<_Tp, _N>::push_front(const _Tp& value) {
-  // only add element if list isn't full
-  if (p_next_available_node_ != p_end_node_) {
+  if (!full()) {
     // save the next available node after the current one has been used up
     auto* p_next_available_node = p_next_available_node_->p_next_node;
 
@@ -84,8 +83,7 @@ void FastLinkedList<_Tp, _N>::push_front(const _Tp& value) {
 
 template <typename _Tp, size_t _N>
 void FastLinkedList<_Tp, _N>::push_front(_Tp&& value) {
-  // only add element if list isn't full
-  if (p_next_available_node_ != p_end_node_) {
+  if (!full()) {
     // save the next available node after the current one has been used up
     auto* p_next_available_node = p_next_available_node_->p_next_node;
 
@@ -106,7 +104,7 @@ void FastLinkedList<_Tp, _N>::push_front(_Tp&& value) {
 
 template <typename _Tp, size_t _N>
 void FastLinkedList<_Tp, _N>::pop_front() {
-  if (p_start_node_ != p_end_node_) {
+  if (!empty()) {
     // save the pointer to the node to be removed
     auto* p_node_to_remove = p_start_node_;
 
