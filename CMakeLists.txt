@@ -13,8 +13,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/lib
 
 # add warnings to all build types
 set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wdouble-promotion")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_FLAGS}")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNING_FLAGS}")
+list(APPEND CMAKE_CXX_FLAGS ${WARNING_FLAGS})
+list(APPEND CMAKE_C_FLAGS ${WARNING_FLAGS})
 
 # ccache to speed up builds
 option(ENABLE_CCACHE "Enable ccache to speed up builds" ON)
@@ -43,6 +43,11 @@ if(ENABLE_LINK_TIME_OPTIMIZATION)
 endif()
 
 option(ENABLE_CODE_COVERAGE "Generate code coverage data" OFF)
+add_library(code_coverage INTERFACE)
+if(ENABLE_CODE_COVERAGE)
+  target_compile_options(code_coverage INTERFACE --coverage)
+  target_link_libraries(code_coverage INTERFACE "--coverage")
+endif()
 
 # Use GTest::Main and GTest::GTest when linking libraries
 find_package(GTest)
