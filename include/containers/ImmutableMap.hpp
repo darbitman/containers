@@ -16,13 +16,14 @@ namespace helpers::containers {
 template <typename _Key, typename _Tp, typename _Compare = std::less<_Key>>
 class ImmutableMap {
  public:
-  using key_type       = _Key;
-  using mapped_type    = _Tp;
-  using key_compare    = _Compare;
-  using value_type     = std::pair<const _Key, _Tp>;
-  using size_type      = size_t;
-  using container      = std::vector<std::pair<key_type, mapped_type>>;
-  using const_iterator = typename container::const_iterator;
+  using key_type        = _Key;
+  using mapped_type     = _Tp;
+  using key_compare     = _Compare;
+  using value_type      = std::pair<const _Key, _Tp>;
+  using size_type       = size_t;
+  using const_reference = const mapped_type&;
+  using container       = std::vector<std::pair<key_type, mapped_type>>;
+  using const_iterator  = typename container::const_iterator;
 
   /// @brief
   /// @tparam _MapCompare Functor used for comparisons in a std::map
@@ -48,8 +49,8 @@ class ImmutableMap {
   const_iterator rbegin() const noexcept;
   const_iterator rend() const noexcept;
 
-  const mapped_type& at(const key_type& key) const;
-  const mapped_type& operator[](const key_type& key) const;
+  const_reference at(const key_type& key) const;
+  const_reference operator[](const key_type& key) const;
 
   bool      empty() const noexcept;
   size_type size() const noexcept;
@@ -62,7 +63,7 @@ class ImmutableMap {
   /// @param
   /// @return
   /// @throw
-  const mapped_type& FindElement(size_type lo, size_type hi, const key_type& key) const;
+  const_reference FindElement(size_type lo, size_type hi, const key_type& key) const;
 
   /// @brief
   /// @param
@@ -123,12 +124,12 @@ auto ImmutableMap<_Key, _Tp, _Compare>::rend() const noexcept -> const_iterator 
 }
 
 template <typename _Key, typename _Tp, typename _Compare>
-auto ImmutableMap<_Key, _Tp, _Compare>::at(const key_type& key) const -> const mapped_type& {
+auto ImmutableMap<_Key, _Tp, _Compare>::at(const key_type& key) const -> const_reference {
   return FindElement(0, map_.size(), key);
 }
 
 template <typename _Key, typename _Tp, typename _Compare>
-auto ImmutableMap<_Key, _Tp, _Compare>::operator[](const key_type& key) const -> const mapped_type& {
+auto ImmutableMap<_Key, _Tp, _Compare>::operator[](const key_type& key) const -> const_reference {
   return this->at(key);
 }
 
@@ -149,7 +150,7 @@ auto ImmutableMap<_Key, _Tp, _Compare>::count(const key_type& key) const noexcep
 
 template <typename _Key, typename _Tp, typename _Compare>
 auto ImmutableMap<_Key, _Tp, _Compare>::FindElement(size_type lo, size_type hi, const key_type& key) const
-    -> const mapped_type& {
+    -> const_reference {
   if (hi == lo) {
     throw std::out_of_range("");
   }
