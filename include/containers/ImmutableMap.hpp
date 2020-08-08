@@ -19,11 +19,16 @@ class ImmutableMap {
   using container      = std::vector<std::pair<key_type, mapped_type>>;
   using const_iterator = typename container::const_iterator;
 
-  explicit ImmutableMap(const std::map<key_type, mapped_type, key_compare>& input_map) {
+  explicit ImmutableMap(const std::map<key_type, mapped_type>& input_map) {
     sorted_vector_.reserve(input_map.size());
 
     for (const auto& value : input_map) {
       sorted_vector_.push_back(value);
+    }
+
+    if constexpr (!std::is_same<key_compare, typename std::map<_Key, _Tp>::key_compare>::value) {
+      std::sort(sorted_vector_.begin(), sorted_vector_.end(),
+                [](const value_type& lhs, const value_type& rhs) -> bool { return _Compare()(lhs.first, rhs.first); });
     }
   }
 
@@ -42,20 +47,14 @@ class ImmutableMap {
 
   const_iterator end() const noexcept { return sorted_vector_.end(); }
 
-  const mapped_type& at(const key_type& key) const {
-    if (sorted_vector_.empty()) {
-      throw std::out_of_range("");
-    }
-
-    return FindElement(0, sorted_vector_.size() - 1, key);
-  }
+  const mapped_type& at(const key_type& key) const { return FindElement(0, sorted_vector_.size(), key); }
 
   bool empty() const noexcept { return sorted_vector_.empty(); }
 
   size_type size() const noexcept { return sorted_vector_.size(); }
 
   size_type count(const key_type& key) const noexcept {
-    return static_cast<size_type>(DoesElementExist(0, sorted_vector_.size() - 1, key));
+    return static_cast<size_type>(DoesElementExist(0, sorted_vector_.size(), key));
   }
 
   ~ImmutableMap() = default;
@@ -67,7 +66,7 @@ class ImmutableMap {
 
  private:
   const mapped_type& FindElement(size_type lo, size_type hi, const key_type& key) const {
-    if (hi < lo) {
+    if (hi == lo) {
       throw std::out_of_range("");
     }
 
@@ -78,14 +77,14 @@ class ImmutableMap {
     }
 
     if (_Compare()(key, sorted_vector_[mid].first)) {
-      return FindElement(lo, mid - 1, key);
+      return FindElement(lo, mid, key);
     } else {
       return FindElement(mid + 1, hi, key);
     }
   }
 
   bool DoesElementExist(size_type lo, size_type hi, const key_type& key) const noexcept {
-    if (hi < lo) {
+    if (hi == lo) {
       return false;
     }
 
@@ -96,7 +95,7 @@ class ImmutableMap {
     }
 
     if (_Compare()(key, sorted_vector_[mid].first)) {
-      return DoesElementExist(lo, mid - 1, key);
+      return DoesElementExist(lo, mid, key);
     } else {
       return DoesElementExist(mid + 1, hi, key);
     }
