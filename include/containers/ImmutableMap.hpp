@@ -43,12 +43,15 @@ class ImmutableMap {
 
   ~ImmutableMap() = default;
 
-  const_iterator     begin() const noexcept;
-  const_iterator     end() const noexcept;
+  const_iterator begin() const noexcept;
+  const_iterator end() const noexcept;
+
   const mapped_type& at(const key_type& key) const;
-  bool               empty() const noexcept;
-  size_type          size() const noexcept;
-  size_type          count(const key_type& key) const noexcept;
+  const mapped_type& operator[](const key_type& key) const;
+
+  bool      empty() const noexcept;
+  size_type size() const noexcept;
+  size_type count(const key_type& key) const noexcept;
 
  private:
   /// @brief
@@ -106,9 +109,15 @@ template <typename _Key, typename _Tp, typename _Compare>
 auto ImmutableMap<_Key, _Tp, _Compare>::end() const noexcept -> const_iterator {
   return map_.end();
 }
+
 template <typename _Key, typename _Tp, typename _Compare>
 auto ImmutableMap<_Key, _Tp, _Compare>::at(const key_type& key) const -> const mapped_type& {
   return FindElement(0, map_.size(), key);
+}
+
+template <typename _Key, typename _Tp, typename _Compare>
+auto ImmutableMap<_Key, _Tp, _Compare>::operator[](const key_type& key) const -> const mapped_type& {
+  return this->at(key);
 }
 
 template <typename _Key, typename _Tp, typename _Compare>
