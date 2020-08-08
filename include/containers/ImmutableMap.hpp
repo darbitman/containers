@@ -19,20 +19,22 @@ class ImmutableMap {
   using container      = std::vector<std::pair<key_type, mapped_type>>;
   using const_iterator = typename container::const_iterator;
 
-  explicit ImmutableMap(const std::map<key_type, mapped_type>& input_map) {
+  template <typename _MapCompare>
+  explicit ImmutableMap(const std::map<key_type, mapped_type, _MapCompare>& input_map) {
     sorted_vector_.reserve(input_map.size());
 
     for (const auto& value : input_map) {
       sorted_vector_.push_back(value);
     }
 
-    if constexpr (!std::is_same<key_compare, typename std::map<_Key, _Tp>::key_compare>::value) {
+    if constexpr (!std::is_same<key_compare, typename std::map<_Key, _Tp, _MapCompare>::key_compare>::value) {
       std::sort(sorted_vector_.begin(), sorted_vector_.end(),
                 [](const value_type& lhs, const value_type& rhs) -> bool { return _Compare()(lhs.first, rhs.first); });
     }
   }
 
-  explicit ImmutableMap(const std::unordered_map<_Key, _Tp>& input_map) {
+  template <typename _MapHash>
+  explicit ImmutableMap(const std::unordered_map<_Key, _Tp, _MapHash>& input_map) {
     sorted_vector_.reserve(input_map.size());
 
     for (const auto& value : input_map) {
