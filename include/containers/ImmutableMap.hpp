@@ -8,7 +8,7 @@
 
 namespace helpers::containers {
 
-/// @brief Immutable map is an associative container (ie stores key/value pairs) that cannot be modified. Constructed
+/// @brief ImmutableMap is an associative container (ie stores key/value pairs) that cannot be modified. Constructed
 /// from either a std::map or std::unordered_map that have already been populated
 /// @tparam _Key key type
 /// @tparam _Tp value type
@@ -26,13 +26,13 @@ class ImmutableMap {
 
   /// @brief
   /// @tparam _MapCompare Functor used for comparisons in a std::map
-  /// @param
+  /// @param input_map A populated std::map
   template <typename _MapCompare>
   explicit ImmutableMap(const std::map<key_type, mapped_type, _MapCompare>& input_map);
 
-  /// @tparam
   /// @brief
-  /// @param
+  /// @tparam _Hash Functor used for computing the has in a std::unordered_map
+  /// @param input_map A populated std::unordered_map
   template <typename _Hash>
   explicit ImmutableMap(const std::unordered_map<_Key, _Tp, _Hash>& input_map);
 
