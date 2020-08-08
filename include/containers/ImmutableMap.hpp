@@ -13,12 +13,13 @@ class ImmutableMap {
  public:
   using key_type       = _Key;
   using mapped_type    = _Tp;
+  using key_compare    = _Compare;
   using value_type     = std::pair<const _Key, _Tp>;
   using size_type      = size_t;
   using container      = std::vector<std::pair<key_type, mapped_type>>;
   using const_iterator = typename container::const_iterator;
 
-  explicit ImmutableMap(const std::map<_Key, _Tp>& input_map) {
+  explicit ImmutableMap(const std::map<key_type, mapped_type, key_compare>& input_map) {
     sorted_vector_.reserve(input_map.size());
 
     for (const auto& value : input_map) {
