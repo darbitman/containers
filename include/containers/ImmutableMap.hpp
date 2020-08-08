@@ -8,8 +8,8 @@
 
 namespace helpers::containers {
 
-/// @brief ImmutableMap is an associative container (ie stores key/value pairs) that cannot be modified. Constructed
-/// from either a std::map or std::unordered_map that have already been populated
+/// @brief ImmutableMap is an ordered associative container (ie stores key/value pairs) that cannot be modified.
+/// Constructed from either a std::map or std::unordered_map that have already been populated
 /// @tparam _Key key type
 /// @tparam _Tp value type
 /// @tparam _Compare functor to use for comparison
