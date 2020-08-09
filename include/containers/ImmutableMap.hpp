@@ -19,11 +19,28 @@ class ImmutableMap {
   using key_type        = _Key;
   using mapped_type     = _Tp;
   using key_compare     = _Compare;
-  using value_type      = std::pair<const _Key, _Tp>;
+  using value_type      = std::pair<_Key, _Tp>;
   using size_type       = size_t;
   using const_reference = const mapped_type&;
-  using container       = std::vector<std::pair<key_type, mapped_type>>;
-  using const_iterator  = typename container::const_iterator;
+
+  class const_iterator {
+   public:
+    const_iterator(const value_type* v) noexcept;
+    const_iterator(const const_iterator&) = default;
+    const_iterator(const_iterator&&)      = default;
+    const_iterator& operator=(const const_iterator&) = default;
+    const_iterator& operator=(const_iterator&&) = default;
+    ~const_iterator() noexcept                  = default;
+
+    bool operator!=(const const_iterator& rhs) const noexcept;
+
+    const value_type& operator*() const noexcept;
+    const value_type* operator->() const noexcept;
+    const_iterator&   operator++() noexcept;
+
+   private:
+    const value_type* p_value_;
+  };
 
   /// @brief
   /// @tparam _MapCompare Functor used for comparisons in a std::map
@@ -72,7 +89,7 @@ class ImmutableMap {
   /// @return
   bool DoesElementExist(size_type lo, size_type hi, const key_type& key) const noexcept;
 
-  container map_;
+  std::vector<value_type> map_;
 };
 
 template <typename _Key, typename _Tp, typename _Compare>
@@ -105,12 +122,12 @@ ImmutableMap<_Key, _Tp, _Compare>::ImmutableMap(const std::unordered_map<_Key, _
 
 template <typename _Key, typename _Tp, typename _Compare>
 auto ImmutableMap<_Key, _Tp, _Compare>::begin() const noexcept -> const_iterator {
-  return map_.begin();
+  return const_iterator(map_.data());
 }
 
 template <typename _Key, typename _Tp, typename _Compare>
 auto ImmutableMap<_Key, _Tp, _Compare>::end() const noexcept -> const_iterator {
-  return map_.end();
+  return const_iterator(map_.data() + map_.size());
 }
 
 template <typename _Key, typename _Tp, typename _Compare>
@@ -186,6 +203,30 @@ bool ImmutableMap<_Key, _Tp, _Compare>::DoesElementExist(size_type lo, size_type
   } else {
     return DoesElementExist(mid + 1, hi, key);
   }
+}
+
+template <typename _Key, typename _Tp, typename _Compare>
+ImmutableMap<_Key, _Tp, _Compare>::const_iterator::const_iterator(const value_type* p_value) noexcept
+    : p_value_(p_value) {}
+
+template <typename _Key, typename _Tp, typename _Compare>
+bool ImmutableMap<_Key, _Tp, _Compare>::const_iterator::operator!=(const const_iterator& rhs) const noexcept {
+  return this->p_value_ != rhs.p_value_;
+}
+
+template <typename _Key, typename _Tp, typename _Compare>
+auto ImmutableMap<_Key, _Tp, _Compare>::const_iterator::operator*() const noexcept -> const value_type& {
+  return *p_value_;
+}
+
+template <typename _Key, typename _Tp, typename _Compare>
+auto ImmutableMap<_Key, _Tp, _Compare>::const_iterator::operator->() const noexcept -> const value_type* {
+  return p_value_;
+}
+template <typename _Key, typename _Tp, typename _Compare>
+auto ImmutableMap<_Key, _Tp, _Compare>::const_iterator::operator++() noexcept -> const_iterator& {
+  ++p_value_;
+  return *this;
 }
 
 }  // namespace helpers::containers
