@@ -80,5 +80,33 @@ TEST(ImmutableMapTest, GreaterThanCompareStdMap) {
   }
 }
 
+TEST(ImmutableMapTest, NonIntegralType) {
+  struct S {
+    int32_t a;
+    int32_t b;
+    int32_t c;
+
+    bool operator<(const S& rhs) const noexcept { return std::tie(a, b, c) < std::tie(rhs.a, rhs.b, rhs.c); }
+
+    bool operator==(const S& rhs) const noexcept { return std::tie(a, b, c) == std::tie(rhs.a, rhs.b, rhs.c); }
+  };
+
+  const std::map<S, int32_t> input_map = {
+      {{1, 2, 3}, 2}, {{2, 3, 4}, 7}, {{19, 20, 21}, 5}, {{19, 20, 20}, 12}, {{7, 8, 9}, 99}};
+
+  ImmutableMap<S, int32_t> immutable_map(input_map);
+
+  ASSERT_EQ(immutable_map.size(), input_map.size());
+
+  auto input_map_iter = input_map.begin();
+  for (const auto& [k, v] : immutable_map) {
+    EXPECT_EQ(k.a, input_map_iter->first.a);
+    EXPECT_EQ(k.b, input_map_iter->first.b);
+    EXPECT_EQ(k.c, input_map_iter->first.c);
+    EXPECT_EQ(v, input_map_iter->second);
+    ++input_map_iter;
+  }
+}
+
 }  // namespace
 }  // namespace helpers::containers
