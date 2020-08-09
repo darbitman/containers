@@ -63,8 +63,6 @@ class ImmutableMap {
 
   const_iterator begin() const noexcept;
   const_iterator end() const noexcept;
-  const_iterator rbegin() const noexcept;
-  const_iterator rend() const noexcept;
 
   const_reference at(const key_type& key) const;
   const_reference operator[](const key_type& key) const;
@@ -128,16 +126,6 @@ auto ImmutableMap<_Key, _Tp, _Compare>::begin() const noexcept -> const_iterator
 template <typename _Key, typename _Tp, typename _Compare>
 auto ImmutableMap<_Key, _Tp, _Compare>::end() const noexcept -> const_iterator {
   return const_iterator(map_.data() + map_.size());
-}
-
-template <typename _Key, typename _Tp, typename _Compare>
-auto ImmutableMap<_Key, _Tp, _Compare>::rbegin() const noexcept -> const_iterator {
-  return map_.rbegin();
-}
-
-template <typename _Key, typename _Tp, typename _Compare>
-auto ImmutableMap<_Key, _Tp, _Compare>::rend() const noexcept -> const_iterator {
-  return map_.rend();
 }
 
 template <typename _Key, typename _Tp, typename _Compare>
