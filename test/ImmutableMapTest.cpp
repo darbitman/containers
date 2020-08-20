@@ -70,6 +70,7 @@ TEST(ImmutableMapTest, GreaterThanCompareStdMap) {
 
   EXPECT_EQ(immutable_map.at(1), 2);
   EXPECT_EQ(immutable_map.at(19), 5);
+  EXPECT_EQ(immutable_map.count(19), 1);
   EXPECT_THROW(immutable_map.at(12), std::out_of_range);
 
   auto intput_map_iter = input_map.rbegin();

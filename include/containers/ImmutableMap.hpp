@@ -87,6 +87,8 @@ class ImmutableMap {
   /// @return
   bool DoesElementExist(size_type lo, size_type hi, const key_type& key) const noexcept;
 
+  _Compare comp_;
+
   std::vector<value_type> map_;
 };
 
@@ -101,7 +103,7 @@ ImmutableMap<_Key, _Tp, _Compare>::ImmutableMap(const std::map<key_type, mapped_
 
   if constexpr (!std::is_same<key_compare, typename std::map<_Key, _Tp, _MapCompare>::key_compare>::value) {
     std::sort(map_.begin(), map_.end(),
-              [](const value_type& lhs, const value_type& rhs) -> bool { return _Compare()(lhs.first, rhs.first); });
+              [&](const value_type& lhs, const value_type& rhs) -> bool { return comp_(lhs.first, rhs.first); });
   }
 }
 
@@ -115,7 +117,7 @@ ImmutableMap<_Key, _Tp, _Compare>::ImmutableMap(const std::unordered_map<_Key, _
   }
 
   std::sort(map_.begin(), map_.end(),
-            [](const value_type& lhs, const value_type& rhs) -> bool { return _Compare()(lhs.first, rhs.first); });
+            [&](const value_type& lhs, const value_type& rhs) -> bool { return comp_(lhs.first, rhs.first); });
 }
 
 template <typename _Key, typename _Tp, typename _Compare>
@@ -166,7 +168,7 @@ auto ImmutableMap<_Key, _Tp, _Compare>::FindElement(size_type lo, size_type hi, 
     return map_[mid].second;
   }
 
-  if (_Compare()(key, map_[mid].first)) {
+  if (comp_(key, map_[mid].first)) {
     return FindElement(lo, mid, key);
   } else {
     return FindElement(mid + 1, hi, key);
@@ -186,7 +188,7 @@ bool ImmutableMap<_Key, _Tp, _Compare>::DoesElementExist(size_type lo, size_type
     return true;
   }
 
-  if (_Compare()(key, map_[mid].first)) {
+  if (comp_(key, map_[mid].first)) {
     return DoesElementExist(lo, mid, key);
   } else {
     return DoesElementExist(mid + 1, hi, key);
