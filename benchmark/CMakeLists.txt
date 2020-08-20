@@ -20,6 +20,7 @@ foreach(benchmark_file ${bench_SRC})
         benchmark::benchmark
         pthread
         project_warnings
+        code_sanitizers
   )
 
   set_target_properties(

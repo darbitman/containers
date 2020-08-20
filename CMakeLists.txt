@@ -42,16 +42,13 @@ if(ENABLE_LINK_TIME_OPTIMIZATION)
   endif()
 endif()
 
-option(ENABLE_CODE_COVERAGE "Generate code coverage data" OFF)
+include(cmake/CodeCoverage.cmake)
 add_library(code_coverage INTERFACE)
-if(ENABLE_CODE_COVERAGE)
-  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_options(code_coverage INTERFACE --coverage)
-    target_link_libraries(code_coverage INTERFACE "--coverage")
-  else()
-    message(FATAL_ERROR "Code coverage can only be enabled for debug/unoptimized builds")
-  endif()
-endif()
+enable_code_coverage(code_coverage)
+
+include(cmake/Sanitizers.cmake)
+add_library(code_sanitizers INTERFACE)
+enable_compiler_sanitizers(code_sanitizers)
 
 # Use GTest::Main and GTest::GTest when linking libraries
 find_package(GTest)

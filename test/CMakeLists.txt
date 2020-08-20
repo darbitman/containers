@@ -5,6 +5,7 @@ set(
   pthread
   project_warnings
   code_coverage
+  code_sanitizers
 )
 
 set(include_dirs ${PROJECT_SOURCE_DIR}/include/)
