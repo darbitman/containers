@@ -20,7 +20,6 @@ foreach(benchmark_file ${bench_SRC})
         benchmark::benchmark
         pthread
         project_warnings
-        code_coverage
   )
 
   set_target_properties(
