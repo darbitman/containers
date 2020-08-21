@@ -53,7 +53,6 @@ enable_compiler_sanitizers(code_sanitizers)
 # Use GTest::Main and GTest::GTest when linking libraries
 find_package(GTest)
 if(GTEST_FOUND)
-    set(BUILD_UNIT_TESTS ON)
     include(cmake/CompileTests.cmake)
     include (CTest)
 else()
@@ -68,7 +67,7 @@ else()
     message(WARNING "benchmark not found in system path. Not building benchmarks.")
 endif()
 
-if(BUILD_UNIT_TESTS)
+if(BUILD_TESTING)
     add_subdirectory(test)
 endif()
 
