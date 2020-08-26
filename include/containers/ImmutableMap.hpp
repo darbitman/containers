@@ -25,7 +25,7 @@ class ImmutableMap {
 
   class const_iterator {
    public:
-    const_iterator(const value_type* v) noexcept;
+    explicit const_iterator(const value_type* v) noexcept;
     const_iterator(const const_iterator&) = default;
     const_iterator(const_iterator&&)      = default;
     const_iterator& operator=(const const_iterator&) = default;
